@@ -1,65 +1,43 @@
 package io.neow3j.protocol.core;
 
-import io.neow3j.protocol.core.response.NeoBlockCount;
-import io.neow3j.protocol.core.response.NeoBlockHash;
-import io.neow3j.protocol.core.response.NeoBlockHeaderCount;
-import io.neow3j.protocol.core.response.NeoCalculateNetworkFee;
-import io.neow3j.protocol.core.response.NeoCloseWallet;
-import io.neow3j.protocol.core.response.NeoConnectionCount;
-import io.neow3j.protocol.core.response.NeoDumpPrivKey;
-import io.neow3j.protocol.core.response.NeoFindStates;
-import io.neow3j.protocol.core.response.NeoGetApplicationLog;
-import io.neow3j.protocol.core.response.NeoGetBlock;
-import io.neow3j.protocol.core.response.NeoGetCommittee;
-import io.neow3j.protocol.core.response.NeoGetContractState;
-import io.neow3j.protocol.core.response.NeoGetMemPool;
-import io.neow3j.protocol.core.response.NeoGetNativeContracts;
-import io.neow3j.protocol.core.response.NeoGetNep11Balances;
-import io.neow3j.protocol.core.response.NeoGetNep11Properties;
-import io.neow3j.protocol.core.response.NeoGetNep11Transfers;
-import io.neow3j.protocol.core.response.NeoGetNep17Balances;
-import io.neow3j.protocol.core.response.NeoGetNep17Transfers;
-import io.neow3j.protocol.core.response.NeoGetNewAddress;
-import io.neow3j.protocol.core.response.NeoGetNextBlockValidators;
-import io.neow3j.protocol.core.response.NeoGetPeers;
-import io.neow3j.protocol.core.response.NeoGetProof;
-import io.neow3j.protocol.core.response.NeoGetRawBlock;
-import io.neow3j.protocol.core.response.NeoGetRawMemPool;
-import io.neow3j.protocol.core.response.NeoGetRawTransaction;
-import io.neow3j.protocol.core.response.NeoGetState;
-import io.neow3j.protocol.core.response.NeoGetStateHeight;
-import io.neow3j.protocol.core.response.NeoGetStateRoot;
-import io.neow3j.protocol.core.response.NeoGetStorage;
-import io.neow3j.protocol.core.response.NeoGetTransaction;
-import io.neow3j.protocol.core.response.NeoGetTransactionHeight;
-import io.neow3j.protocol.core.response.NeoGetUnclaimedGas;
-import io.neow3j.protocol.core.response.NeoGetVersion;
-import io.neow3j.protocol.core.response.NeoGetWalletBalance;
-import io.neow3j.protocol.core.response.NeoGetWalletUnclaimedGas;
-import io.neow3j.protocol.core.response.NeoImportPrivKey;
-import io.neow3j.protocol.core.response.NeoInvokeContractVerify;
-import io.neow3j.protocol.core.response.NeoInvokeFunction;
-import io.neow3j.protocol.core.response.NeoInvokeScript;
-import io.neow3j.protocol.core.response.NeoListAddress;
-import io.neow3j.protocol.core.response.NeoListPlugins;
-import io.neow3j.protocol.core.response.NeoOpenWallet;
-import io.neow3j.protocol.core.response.NeoSendFrom;
-import io.neow3j.protocol.core.response.NeoSendMany;
-import io.neow3j.protocol.core.response.NeoSendRawTransaction;
-import io.neow3j.protocol.core.response.NeoSendToAddress;
-import io.neow3j.protocol.core.response.NeoSubmitBlock;
-import io.neow3j.protocol.core.response.NeoTerminateSession;
-import io.neow3j.protocol.core.response.NeoTraverseIterator;
-import io.neow3j.protocol.core.response.NeoValidateAddress;
-import io.neow3j.protocol.core.response.NeoVerifyProof;
-import io.neow3j.protocol.core.response.TransactionSendToken;
-import io.neow3j.transaction.Signer;
-import io.neow3j.types.ContractParameter;
-import io.neow3j.types.Hash160;
-import io.neow3j.types.Hash256;
+import io.neow3j.contract.ContractParameter;
+import io.neow3j.protocol.core.methods.response.NeoBlockCount;
+import io.neow3j.protocol.core.methods.response.NeoBlockHash;
+import io.neow3j.protocol.core.methods.response.NeoConnectionCount;
+import io.neow3j.protocol.core.methods.response.NeoDumpPrivKey;
+import io.neow3j.protocol.core.methods.response.NeoGetAccountState;
+import io.neow3j.protocol.core.methods.response.NeoGetApplicationLog;
+import io.neow3j.protocol.core.methods.response.NeoGetAssetState;
+import io.neow3j.protocol.core.methods.response.NeoGetBalance;
+import io.neow3j.protocol.core.methods.response.NeoGetBlock;
+import io.neow3j.protocol.core.methods.response.NeoGetBlockSysFee;
+import io.neow3j.protocol.core.methods.response.NeoGetClaimable;
+import io.neow3j.protocol.core.methods.response.NeoGetContractState;
+import io.neow3j.protocol.core.methods.response.NeoGetNep5Balances;
+import io.neow3j.protocol.core.methods.response.NeoGetNewAddress;
+import io.neow3j.protocol.core.methods.response.NeoGetPeers;
+import io.neow3j.protocol.core.methods.response.NeoGetRawBlock;
+import io.neow3j.protocol.core.methods.response.NeoGetRawMemPool;
+import io.neow3j.protocol.core.methods.response.NeoGetRawTransaction;
+import io.neow3j.protocol.core.methods.response.NeoGetStorage;
+import io.neow3j.protocol.core.methods.response.NeoGetTransaction;
+import io.neow3j.protocol.core.methods.response.NeoGetTxOut;
+import io.neow3j.protocol.core.methods.response.NeoGetUnspents;
+import io.neow3j.protocol.core.methods.response.NeoGetValidators;
+import io.neow3j.protocol.core.methods.response.NeoGetVersion;
+import io.neow3j.protocol.core.methods.response.NeoGetWalletHeight;
+import io.neow3j.protocol.core.methods.response.NeoInvoke;
+import io.neow3j.protocol.core.methods.response.NeoInvokeFunction;
+import io.neow3j.protocol.core.methods.response.NeoInvokeScript;
+import io.neow3j.protocol.core.methods.response.NeoListAddress;
+import io.neow3j.protocol.core.methods.response.NeoListPlugins;
+import io.neow3j.protocol.core.methods.response.NeoSendMany;
+import io.neow3j.protocol.core.methods.response.NeoSendRawTransaction;
+import io.neow3j.protocol.core.methods.response.NeoSendToAddress;
+import io.neow3j.protocol.core.methods.response.NeoSubmitBlock;
+import io.neow3j.protocol.core.methods.response.NeoValidateAddress;
+import io.neow3j.protocol.core.methods.response.TransactionOutput;
 
-import java.math.BigInteger;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -67,191 +45,106 @@ import java.util.List;
  */
 public interface Neo {
 
-    //region Blockchain Methods
-
-    Request<?, NeoBlockHash> getBestBlockHash();
-
-    Request<?, NeoBlockHash> getBlockHash(BigInteger blockIndex);
-
-    Request<?, NeoGetBlock> getBlock(Hash256 blockHash, boolean returnFullTransactionObjects);
-
-    Request<?, NeoGetBlock> getBlock(BigInteger blockIndex, boolean returnFullTransactionObjects);
-
-    Request<?, NeoGetRawBlock> getRawBlock(Hash256 blockHash);
-
-    Request<?, NeoGetRawBlock> getRawBlock(BigInteger blockIndex);
-
-    Request<?, NeoBlockHeaderCount> getBlockHeaderCount();
-
-    Request<?, NeoBlockCount> getBlockCount();
-
-    Request<?, NeoGetBlock> getBlockHeader(Hash256 blockHash);
-
-    Request<?, NeoGetBlock> getBlockHeader(BigInteger blockIndex);
-
-    Request<?, NeoGetRawBlock> getRawBlockHeader(Hash256 blockHash);
-
-    Request<?, NeoGetRawBlock> getRawBlockHeader(BigInteger blockIndex);
-
-    Request<?, NeoGetNativeContracts> getNativeContracts();
-
-    Request<?, NeoGetContractState> getContractState(Hash160 contractHash);
-
-    Request<?, NeoGetContractState> getNativeContractState(String contractName);
-
-    Request<?, NeoGetMemPool> getMemPool();
-
-    Request<?, NeoGetRawMemPool> getRawMemPool();
-
-    Request<?, NeoGetTransaction> getTransaction(Hash256 txHash);
-
-    Request<?, NeoGetRawTransaction> getRawTransaction(Hash256 txHash);
-
-    Request<?, NeoGetStorage> getStorage(Hash160 contractHash, String keyHexString);
-
-    Request<?, NeoGetTransactionHeight> getTransactionHeight(Hash256 txHash);
-
-    Request<?, NeoGetNextBlockValidators> getNextBlockValidators();
-
-    Request<?, NeoGetCommittee> getCommittee();
-
-    //endregion
-
-    //region Node Methods
-
-    Request<?, NeoConnectionCount> getConnectionCount();
-
-    Request<?, NeoGetPeers> getPeers();
+    // API 2.9.*
 
     Request<?, NeoGetVersion> getVersion();
 
-    Request<?, NeoSendRawTransaction> sendRawTransaction(String rawTransactionHex);
+    Request<?, NeoGetBlock> getBlock(String address, boolean returnFullTransactionObjects);
 
-    Request<?, NeoSubmitBlock> submitBlock(String serializedBlockAsHex);
+    Request<?, NeoGetRawBlock> getRawBlock(String address);
 
-    //endregion
+    Request<?, NeoGetBlock> getBlock(BlockParameterIndex blockIndex, boolean returnFullTransactionObjects);
 
-    //region SmartContract Methods
+    Request<?, NeoGetRawBlock> getRawBlock(BlockParameterIndex blockIndex);
 
-    Request<?, NeoInvokeFunction> invokeFunction(Hash160 contractHash, String functionName, Signer... signers);
+    Request<?, NeoBlockCount> getBlockCount();
 
-    Request<?, NeoInvokeFunction> invokeFunction(Hash160 contractHash, String functionName,
-            List<ContractParameter> params, Signer... signers);
+    Request<?, NeoBlockHash> getBestBlockHash();
 
-    Request<?, NeoInvokeFunction> invokeFunctionDiagnostics(Hash160 contractHash, String functionName,
-            Signer... signers);
+    Request<?, NeoBlockHash> getBlockHash(BlockParameterIndex blockIndex);
 
-    Request<?, NeoInvokeFunction> invokeFunctionDiagnostics(Hash160 contractHash, String functionName,
-            List<ContractParameter> params, Signer... signers);
+    Request<?, NeoGetBlock> getBlockHeader(String hash);
 
-    Request<?, NeoInvokeScript> invokeScript(String scriptHex, Signer... signers);
+    Request<?, NeoGetBlock> getBlockHeader(BlockParameterIndex blockIndex);
 
-    Request<?, NeoInvokeScript> invokeScriptDiagnostics(String scriptHex, Signer... signers);
+    Request<?, NeoGetRawBlock> getRawBlockHeader(String hash);
 
-    Request<?, NeoTraverseIterator> traverseIterator(String sessionId, String iteratorId, int count);
+    Request<?, NeoGetRawBlock> getRawBlockHeader(BlockParameterIndex blockIndex);
 
-    Request<?, NeoTerminateSession> terminateSession(String sessionId);
-
-    Request<?, NeoInvokeContractVerify> invokeContractVerify(Hash160 contractHash,
-            List<ContractParameter> methodParameters, Signer... signers);
-
-    Request<?, NeoGetUnclaimedGas> getUnclaimedGas(Hash160 scriptHash);
-
-    //endregion
-
-    //region Utilities Methods
-
-    Request<?, NeoListPlugins> listPlugins();
-
-    Request<?, NeoValidateAddress> validateAddress(String address);
-
-    //endregion
-
-    //region Wallet Methods
-
-    Request<?, NeoCloseWallet> closeWallet();
-
-    Request<?, NeoOpenWallet> openWallet(String walletPath, String password);
-
-    Request<?, NeoDumpPrivKey> dumpPrivKey(Hash160 scriptHash);
-
-    Request<?, NeoGetWalletBalance> getWalletBalance(Hash160 tokenHash);
-
-    Request<?, NeoGetNewAddress> getNewAddress();
-
-    Request<?, NeoGetWalletUnclaimedGas> getWalletUnclaimedGas();
-
-    Request<?, NeoImportPrivKey> importPrivKey(String privateKeyInWIF);
-
-    Request<?, NeoCalculateNetworkFee> calculateNetworkFee(String transactionHex);
+    Request<?, NeoConnectionCount> getConnectionCount();
 
     Request<?, NeoListAddress> listAddress();
 
-    Request<?, NeoSendFrom> sendFrom(Hash160 tokenHash, Hash160 from, Hash160 to, BigInteger amount);
+    Request<?, NeoGetPeers> getPeers();
 
-    Request<?, NeoSendFrom> sendFrom(Hash160 from, TransactionSendToken txSendToken);
+    Request<?, NeoGetRawMemPool> getRawMemPool();
 
-    Request<?, NeoSendMany> sendMany(List<TransactionSendToken> txSendTokens);
+    Request<?, NeoGetValidators> getValidators();
 
-    Request<?, NeoSendMany> sendMany(Hash160 from, List<TransactionSendToken> txSendTokens);
+    Request<?, NeoValidateAddress> validateAddress(String address);
 
-    Request<?, NeoSendToAddress> sendToAddress(Hash160 tokenHash, Hash160 to, BigInteger amount);
+    Request<?, NeoGetAccountState> getAccountState(String address);
 
-    Request<?, NeoSendToAddress> sendToAddress(TransactionSendToken txSendToken);
+    Request<?, NeoGetNewAddress> getNewAddress();
 
-    //endregion
+    Request<?, NeoGetWalletHeight> getWalletHeight();
 
-    //region TokenTracker
+    Request<?, NeoGetBlockSysFee> getBlockSysFee(BlockParameterIndex blockIndex);
 
-    Request<?, NeoGetNep17Balances> getNep17Balances(Hash160 scriptHash);
+    Request<?, NeoGetTxOut> getTxOut(String transactionHash, int txIndex);
 
-    Request<?, NeoGetNep17Transfers> getNep17Transfers(Hash160 scriptHash);
+    Request<?, NeoSendRawTransaction> sendRawTransaction(String rawTransactionHex);
 
-    Request<?, NeoGetNep17Transfers> getNep17Transfers(Hash160 scriptHash, Date from);
+    Request<?, NeoSendToAddress> sendToAddress(String assetId, String toAddress, String value);
 
-    Request<?, NeoGetNep17Transfers> getNep17Transfers(Hash160 scriptHash, Date from, Date to);
+    Request<?, NeoSendToAddress> sendToAddress(String assetId, String toAddress, String value, String fee);
 
-    Request<?, NeoGetNep11Balances> getNep11Balances(Hash160 scriptHash);
+    Request<?, NeoSendToAddress> sendToAddress(String assetId, String toAddress, String value, String fee, String changeAddress);
 
-    Request<?, NeoGetNep11Transfers> getNep11Transfers(Hash160 scriptHash);
+    Request<?, NeoGetTransaction> getTransaction(String txId);
 
-    Request<?, NeoGetNep11Transfers> getNep11Transfers(Hash160 scriptHash, Date from);
+    Request<?, NeoGetRawTransaction> getRawTransaction(String txId);
 
-    Request<?, NeoGetNep11Transfers> getNep11Transfers(Hash160 scriptHash, Date from, Date to);
+    Request<?, NeoGetBalance> getBalance(String assetId);
 
-    Request<?, NeoGetNep11Properties> getNep11Properties(Hash160 scriptHash, String tokenId);
+    Request<?, NeoGetAssetState> getAssetState(String assetId);
 
-    //endregion
+    Request<?, NeoSendMany> sendMany(List<TransactionOutput> outputs);
 
-    //region ApplicationLogs
+    Request<?, NeoSendMany> sendMany(List<TransactionOutput> outputs, String fee);
 
-    Request<?, NeoGetApplicationLog> getApplicationLog(Hash256 txHash);
+    Request<?, NeoSendMany> sendMany(List<TransactionOutput> outputs, String fee, String changeAddress);
 
-    //endregion
+    Request<?, NeoDumpPrivKey> dumpPrivKey(String address);
 
-    //region StateService
+    Request<?, NeoGetStorage> getStorage(String contractAddress, HexParameter keyToLookUp);
 
-    Request<?, NeoGetStateRoot> getStateRoot(Long blockIndex);
+    Request<?, NeoGetStorage> getStorage(String contractAddress, String keyToLookUpAsHexString);
 
-    Request<?, NeoGetProof> getProof(Hash256 rootHash, Hash160 contractHash, String storageKeyHex);
+    Request<?, NeoInvoke> invoke(String contractScriptHash, List<ContractParameter> params);
 
-    Request<?, NeoVerifyProof> verifyProof(Hash256 rootHash, String proofDataHex);
+    Request<?, NeoInvokeFunction> invokeFunction(String contractScriptHash, String functionName);
 
-    Request<?, NeoGetStateHeight> getStateHeight();
+    Request<?, NeoInvokeFunction> invokeFunction(String contractScriptHash, String functionName, List<ContractParameter> params);
 
-    Request<?, NeoGetState> getState(Hash256 rootHash, Hash160 contractHash, String keyHex);
+    Request<?, NeoInvokeScript> invokeScript(String script);
 
-    Request<?, NeoFindStates> findStates(Hash256 rootHash, Hash160 contractHash, String keyPrefixHex,
-            String startKeyHex, Integer countFindResultItems);
+    Request<?, NeoGetContractState> getContractState(String scriptHash);
 
-    Request<?, NeoFindStates> findStates(Hash256 rootHash, Hash160 contractHash, String keyPrefixHex,
-            String startKeyHex);
+    Request<?, NeoSubmitBlock> submitBlock(String serializedBlockAsHex);
 
-    Request<?, NeoFindStates> findStates(Hash256 rootHash, Hash160 contractHash, String keyPrefixHex,
-            Integer countFindResultItems);
+    // API 2.10.*
 
-    Request<?, NeoFindStates> findStates(Hash256 rootHash, Hash160 contractHash, String keyPrefixHex);
+    Request<?, NeoGetUnspents> getUnspents(String address);
 
-    //endregion
+    Request<?, NeoGetNep5Balances> getNep5Balances(String address);
+
+    Request<?, NeoGetClaimable> getClaimable(String address);
+
+    Request<?, NeoListPlugins> listPlugins();
+
+    // Plugins
+
+    Request<?, NeoGetApplicationLog> getApplicationLog(String txId);
 
 }

@@ -25,7 +25,8 @@ public class Request<S, T extends Response> {
     public Request() {
     }
 
-    public Request(String method, List<S> params, Neow3jService neow3jService, Class<T> type) {
+    public Request(String method, List<S> params,
+                   Neow3jService neow3jService, Class<T> type) {
         this.method = method;
         this.params = params;
         this.id = nextId.getAndIncrement();
@@ -76,5 +77,4 @@ public class Request<S, T extends Response> {
     public Observable<T> observable() {
         return new RemoteCall<>(this::send).observable();
     }
-
 }

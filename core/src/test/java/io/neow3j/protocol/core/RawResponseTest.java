@@ -1,12 +1,12 @@
 package io.neow3j.protocol.core;
 
 import io.neow3j.protocol.ResponseTester;
-import io.neow3j.protocol.core.response.NeoGetVersion;
-import org.junit.jupiter.api.Test;
+import io.neow3j.protocol.core.methods.response.NeoGetVersion;
+import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
-import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertThat;
 
 /**
  * Raw Response tests.
@@ -42,5 +42,4 @@ public class RawResponseTest extends ResponseTester {
 
         return deserialiseResponse(NeoGetVersion.class);
     }
-
 }

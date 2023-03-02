@@ -12,8 +12,6 @@ import java.io.InputStream;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 
-import static java.lang.String.format;
-
 /**
  * Base service implementation.
  */
@@ -24,10 +22,10 @@ public abstract class Service implements Neow3jService {
     protected ExecutorService asyncExecutorService;
 
     /**
-     * Creates a Service.
+     * Create a Service.
      *
      * @param executorService     an external ExecutorService where {@link Request} calls should run.
-     * @param includeRawResponses whether to include raw responses on the {@link Response} object.
+     * @param includeRawResponses option to include or not raw responses on the {@link Response} object.
      */
     public Service(ExecutorService executorService, boolean includeRawResponses) {
         objectMapper = ObjectMapperFactory.getObjectMapper(includeRawResponses);
@@ -35,9 +33,9 @@ public abstract class Service implements Neow3jService {
     }
 
     /**
-     * Creates a Service.
+     * Create a Service.
      *
-     * @param includeRawResponses whether to include raw responses on the {@link Response} object.
+     * @param includeRawResponses option to include or not raw responses on the {@link Response} object.
      */
     public Service(boolean includeRawResponses) {
         objectMapper = ObjectMapperFactory.getObjectMapper(includeRawResponses);
@@ -46,7 +44,8 @@ public abstract class Service implements Neow3jService {
     protected abstract InputStream performIO(String payload) throws IOException;
 
     @Override
-    public <T extends Response> T send(Request request, Class<T> responseType) throws IOException {
+    public <T extends Response> T send(
+            Request request, Class<T> responseType) throws IOException {
         String payload = objectMapper.writeValueAsString(request);
 
         try (InputStream result = performIO(payload)) {
@@ -59,15 +58,17 @@ public abstract class Service implements Neow3jService {
     }
 
     @Override
-    public <T extends Response> CompletableFuture<T> sendAsync(Request jsonRpc20Request, Class<T> responseType) {
-        return Async.run(() -> send(jsonRpc20Request, responseType), asyncExecutorService);
+    public <T extends Response> CompletableFuture<T> sendAsync(
+            Request jsonRpc20Request, Class<T> responseType) {
+        return Async.run(() ->
+                send(jsonRpc20Request, responseType), asyncExecutorService);
     }
 
     @Override
-    public <T extends Notification<?>> Observable<T> subscribe(Request request, String unsubscribeMethod,
-            Class<T> responseType) {
+    public <T extends Notification<?>> Observable<T> subscribe(
+            Request request, String unsubscribeMethod, Class<T> responseType) {
         throw new UnsupportedOperationException(
-                format("Service %s does not support subscriptions", this.getClass().getSimpleName()));
+                String.format("Service %s does not support subscriptions", this.getClass()
+                        .getSimpleName()));
     }
-
 }

@@ -1,20 +1,19 @@
-description 'neow3j: Java/Kotlin/Android Development Toolkit for the Neo Blockchain'
+description 'neow3j is a Java library to interact with the NEO blockchain'
 
 dependencies {
-    compile "org.bouncycastle:bcprov-jdk15on:$bouncycastleVersion",
+    compile project(':model'),
+            project(':crypto'),
+            project(':utils'),
+            "com.github.jnr:jnr-unixsocket:$jnr_unixsocketVersion",
             "com.squareup.okhttp3:okhttp:$okhttpVersion",
-            "com.fasterxml.jackson.core:jackson-databind:$jacksonVersion",
-            "io.reactivex.rxjava2:rxjava:$rxjavaVersion"
-
-    implementation "com.squareup.okhttp3:logging-interceptor:$okhttpVersion",
+            "com.squareup.okhttp3:logging-interceptor:$okhttpVersion",
+            "io.reactivex.rxjava2:rxjava:$rxjavaVersion",
             "org.java-websocket:Java-WebSocket:$javaWebSocketVersion",
-            "org.slf4j:slf4j-api:$slf4jVersion",
-            "org.awaitility:awaitility:$awaitility"
-
-    testImplementation "nl.jqno.equalsverifier:equalsverifier:$equalsverifierVersion",
-            "ch.qos.logback:logback-classic:$logbackVersion",
-            "org.jetbrains:annotations:$jetbrainsAnnotationsVersion",
-            project(':test-tools')
+            "com.fasterxml.jackson.core:jackson-databind:$jacksonVersion",
+            "org.slf4j:slf4j-api:$slf4jVersion"
+    testCompile "nl.jqno.equalsverifier:equalsverifier:$equalsverifierVersion",
+            "ch.qos.logback:logback-classic:$logbackVersion"
+    integrationTestCompile "org.awaitility:awaitility:$awaitility"
 }
 
 configurations {

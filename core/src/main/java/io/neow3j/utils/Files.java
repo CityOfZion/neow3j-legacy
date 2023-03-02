@@ -22,5 +22,4 @@ public class Files {
     public static String readString(File file) throws IOException {
         return new String(readBytes(file));
     }
-
 }

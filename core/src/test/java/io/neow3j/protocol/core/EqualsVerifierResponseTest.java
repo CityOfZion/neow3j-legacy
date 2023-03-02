@@ -1,16 +1,16 @@
 package io.neow3j.protocol.core;
 
-import io.neow3j.protocol.core.response.NeoGetVersion;
-import io.neow3j.protocol.core.response.Transaction;
+import io.neow3j.protocol.core.methods.response.NeoGetVersion;
+import io.neow3j.protocol.core.methods.response.Transaction;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import nl.jqno.equalsverifier.Warning;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 public class EqualsVerifierResponseTest {
 
     @Test
     public void testGetVersion() {
-        EqualsVerifier.forClass(NeoGetVersion.NeoVersion.class)
+        EqualsVerifier.forClass(NeoGetVersion.Result.class)
                 .suppress(Warning.NONFINAL_FIELDS)
                 .suppress(Warning.STRICT_INHERITANCE)
                 .verify();

@@ -6,18 +6,15 @@ import okhttp3.OkHttpClient;
 import okhttp3.Protocol;
 import okhttp3.Request;
 import okhttp3.RequestBody;
-import okhttp3.ResponseBody;
 import okio.Buffer;
-import org.jetbrains.annotations.NotNull;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.TestInstance;
+import org.junit.Before;
 
-import static io.neow3j.protocol.http.HttpService.JSON_MEDIA_TYPE;
+import java.io.IOException;
+
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.Assert.assertNotNull;
 
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public abstract class RequestTester {
 
     private OkHttpClient httpClient;
@@ -25,7 +22,7 @@ public abstract class RequestTester {
 
     private RequestInterceptor requestInterceptor;
 
-    @BeforeAll
+    @Before
     public void setUp() {
         requestInterceptor = new RequestInterceptor();
         httpClient = new OkHttpClient.Builder()
@@ -44,9 +41,7 @@ public abstract class RequestTester {
 
         Buffer buffer = new Buffer();
         requestBody.writeTo(buffer);
-        String requestString = replaceRequestId(buffer.readUtf8().replaceAll("\\s", ""));
-        expected = replaceRequestId(expected.replaceAll("\\s", ""));
-        assertThat(requestString, is(expected));
+        assertThat(replaceRequestId(buffer.readUtf8()), is(replaceRequestId(expected)));
     }
 
     private String replaceRequestId(String json) {
@@ -58,13 +53,12 @@ public abstract class RequestTester {
         private RequestBody requestBody;
 
         @Override
-        public okhttp3.@NotNull Response intercept(Chain chain) {
+        public okhttp3.Response intercept(Chain chain) throws IOException {
 
             Request request = chain.request();
             this.requestBody = request.body();
 
             okhttp3.Response response = new okhttp3.Response.Builder()
-                    .body(ResponseBody.create("{}", JSON_MEDIA_TYPE))
                     .request(chain.request())
                     .protocol(Protocol.HTTP_2)
                     .code(200)
@@ -77,7 +71,5 @@ public abstract class RequestTester {
         public RequestBody getRequestBody() {
             return requestBody;
         }
-
     }
-
 }

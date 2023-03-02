@@ -1,12 +1,11 @@
 package io.neow3j.utils;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 import java.util.concurrent.ExecutionException;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class AsyncTest {
 
@@ -18,15 +17,11 @@ public class AsyncTest {
         );
     }
 
-    @Test
-    public void testRunWithException() {
-        assertThrows(ExecutionException.class,
-                () -> Async.run(
-                        () -> {
-                            throw new RuntimeException("Exception");
-                        }
-                ).get()
-        );
+    @Test(expected = ExecutionException.class)
+    public void testRunWithException() throws Exception {
+        Async.run(() -> {
+            throw new RuntimeException("Exception");
+        }).get();
     }
 
 }

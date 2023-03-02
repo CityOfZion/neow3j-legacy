@@ -1,7 +1,7 @@
 package io.neow3j.protocol.http;
 
 import io.neow3j.protocol.core.Request;
-import io.neow3j.protocol.core.response.NeoBlockCount;
+import io.neow3j.protocol.core.methods.response.NeoBlockCount;
 import io.neow3j.protocol.exceptions.ClientConnectionException;
 import okhttp3.Call;
 import okhttp3.OkHttpClient;
@@ -9,7 +9,8 @@ import okhttp3.Protocol;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 import org.jetbrains.annotations.NotNull;
-import org.junit.jupiter.api.Test;
+import org.junit.Assert;
+import org.junit.Test;
 import org.mockito.Mockito;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,23 +28,21 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.Assert.assertTrue;
 
 public class HttpServiceTest {
 
     private static final Logger LOG = LoggerFactory.getLogger(HttpServiceTest.class);
 
-    private final HttpService httpService = new HttpService();
+    private HttpService httpService = new HttpService();
 
     @Test
     public void testAddHeader() {
         String headerName = "customized_header0";
         String headerValue = "customized_value0";
         httpService.addHeader(headerName, headerValue);
-        assertEquals(httpService.getHeaders().get(headerName), headerValue);
+        assertTrue(httpService.getHeaders().get(headerName).equals(headerValue));
     }
 
     @Test
@@ -60,8 +59,8 @@ public class HttpServiceTest {
 
         httpService.addHeaders(headersToAdd);
 
-        assertEquals(httpService.getHeaders().get(headerName1), headerValue1);
-        assertEquals(httpService.getHeaders().get(headerName2), headerValue2);
+        assertTrue(httpService.getHeaders().get(headerName1).equals(headerValue1));
+        assertTrue(httpService.getHeaders().get(headerName2).equals(headerValue2));
     }
 
     @Test
@@ -70,7 +69,7 @@ public class HttpServiceTest {
         Response response = new Response.Builder()
                 .code(400)
                 .message("")
-                .body(ResponseBody.create(content, null))
+                .body(ResponseBody.create(null, content))
                 .request(new okhttp3.Request.Builder()
                         .url(HttpService.DEFAULT_URL)
                         .build())
@@ -94,29 +93,32 @@ public class HttpServiceTest {
         try {
             mockedHttpService.send(request, NeoBlockCount.class);
         } catch (ClientConnectionException e) {
-            assertEquals(
+            Assert.assertEquals(
                     e.getMessage(),
-                    "Invalid response received: " + response.code() + "; " + content);
+                    "Invalid response received: "
+                            + response.code() + "; " + content);
             return;
         }
 
-        fail("No exception");
+        Assert.fail("No exception");
     }
 
     @Test
-    public void testAsyncWithExternalExecutor() {
+    public void testAsyncWithExternalExecutor() throws ExecutionException, InterruptedException {
+
         TestExecutorService executor = new TestExecutorService();
 
         String content = "200";
         Response response = new Response.Builder()
                 .code(200)
                 .message("")
-                .body(ResponseBody.create(content, null))
+                .body(ResponseBody.create(null, content))
                 .request(new okhttp3.Request.Builder()
                         .url(HttpService.DEFAULT_URL)
                         .build())
                 .protocol(Protocol.HTTP_1_1)
                 .build();
+
 
         OkHttpClient httpClient = Mockito.mock(OkHttpClient.class);
         Mockito.when(httpClient.newCall(Mockito.any()))
@@ -135,7 +137,7 @@ public class HttpServiceTest {
                 NeoBlockCount.class);
 
         mockedHttpService1.sendAsync(request1, NeoBlockCount.class);
-        assertThat(executor.isCalled(), is(true));
+        Assert.assertThat(executor.isCalled(), is(true));
 
         HttpService mockedHttpService2 = new HttpService(executor, false);
 
@@ -146,7 +148,7 @@ public class HttpServiceTest {
                 NeoBlockCount.class);
 
         CompletableFuture<NeoBlockCount> result = mockedHttpService2.sendAsync(request2, NeoBlockCount.class);
-        assertThat(executor.isCalled(), is(true));
+        Assert.assertThat(executor.isCalled(), is(true));
     }
 
     private class TestExecutorService implements ExecutorService {
@@ -229,7 +231,7 @@ public class HttpServiceTest {
         public boolean isCalled() {
             return isCalled;
         }
-
     }
+
 
 }

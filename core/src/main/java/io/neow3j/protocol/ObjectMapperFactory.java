@@ -39,7 +39,8 @@ public class ObjectMapperFactory {
         return DEFAULT_OBJECT_MAPPER.reader();
     }
 
-    private static ObjectMapper configureObjectMapper(ObjectMapper objectMapper, boolean shouldIncludeRawResponses) {
+    private static ObjectMapper configureObjectMapper(
+            ObjectMapper objectMapper, boolean shouldIncludeRawResponses) {
         if (shouldIncludeRawResponses) {
             SimpleModule module = new SimpleModule();
             module.setDeserializerModifier(new BeanDeserializerModifier() {
@@ -63,5 +64,4 @@ public class ObjectMapperFactory {
 
         return objectMapper;
     }
-
 }

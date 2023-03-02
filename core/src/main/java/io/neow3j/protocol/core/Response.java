@@ -3,7 +3,7 @@ package io.neow3j.protocol.core;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import io.neow3j.protocol.deserializer.KeepAsJsonDeserialzier;
-import io.neow3j.protocol.exceptions.RpcResponseErrorException;
+import io.neow3j.protocol.exceptions.ErrorResponseException;
 
 /**
  * JSON-RPC response type.
@@ -38,7 +38,6 @@ public class Response<T> {
     }
 
     public T getResult() {
-        throwOnError();
         return result;
     }
 
@@ -66,9 +65,10 @@ public class Response<T> {
         this.rawResponse = rawResponse;
     }
 
-    public void throwOnError() {
+    public void throwOnError() throws ErrorResponseException {
         if (hasError()) {
-            throw new RpcResponseErrorException(error);
+            // TODO Claude 19.06.19: Throw more differentiated exception according to error code.
+            throw new ErrorResponseException(error);
         }
     }
 
@@ -139,16 +139,5 @@ public class Response<T> {
             result = 31 * result + (getData() != null ? getData().hashCode() : 0);
             return result;
         }
-
-        @Override
-        public String toString() {
-            return "Error{" +
-                    "code=" + getCode() +
-                    ", message='" + getMessage() + '\'' +
-                    ", data='" + getData() + '\'' +
-                    "}";
-        }
-
     }
-
 }
