@@ -21,18 +21,18 @@ This branch ([master-2.x](https://github.com/neow3j/neow3j/tree/master-2.x)) is 
 
 ## Using *neow3j SDK* in your project
 
-To get all *neow3j SDK* features, add the `io.neow3j:contract` project to your dependencies. Since neow3j is split into multiple project modules, you can also depend on a subset of the functionality, e.g., if you only require certain utility methods. Check out the concept and structure of the library [here](https://neow3j.io/#/overview/concepts_and_structure).
+To get all *neow3j SDK* features, add the `io.neow3jLegacy:contract` project to your dependencies. Since neow3j is split into multiple project modules, you can also depend on a subset of the functionality, e.g., if you only require certain utility methods. Check out the concept and structure of the library [here](https://neow3j.io/#/overview/concepts_and_structure).
 
 __Gradle__
 
 ```groovy
-compile 'io.neow3j:contract:2.+'
+compile 'io.neow3jLegacy:contract:2.+'
 ```
 __Maven__
 
 ```xml
 <dependency>
-    <groupId>io.neow3j</groupId>
+    <groupId>io.neow3jLegacyio.neow3jLegacy</groupId>
     <artifactId>contract</artifactId>
     <version>[2.0.0,3.0.0)</version>
 </dependency>
